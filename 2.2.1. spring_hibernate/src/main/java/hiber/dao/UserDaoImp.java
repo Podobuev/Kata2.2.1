@@ -26,4 +26,10 @@ public class UserDaoImp implements UserDao {
       return query.getResultList();
    }
 
+   @Override
+   public void drop() {
+      sessionFactory.getCurrentSession().createSQLQuery(
+              "DROP TABLE IF EXISTS Kata1JDBC.users").executeUpdate();
+   }
+
 }
