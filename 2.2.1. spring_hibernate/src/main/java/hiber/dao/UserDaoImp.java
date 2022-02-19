@@ -1,10 +1,13 @@
 package hiber.dao;
 
+import hiber.model.Car;
 import hiber.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class UserDaoImp implements UserDao {
    @Override
    public void add(User user) {
       sessionFactory.getCurrentSession().save(user);
+
    }
 
    @Override
@@ -26,10 +30,16 @@ public class UserDaoImp implements UserDao {
       return query.getResultList();
    }
 
-   @Override
-   public void drop() {
-      sessionFactory.getCurrentSession().createSQLQuery(
-              "DROP TABLE IF EXISTS Kata1JDBC.users").executeUpdate();
+   public User getUser(String model, int series) {
+
+      Car car = (Car) sessionFactory.getCurrentSession().createQuery("From Car where series = : param and model = :param2")
+              .setParameter("param", series).setParameter("param2", model)
+              .list().get(0);
+
+      return  (User) sessionFactory.getCurrentSession().createQuery("FROM User where car.id = :param").
+              setParameter("param", car.getId()).
+              list().get(0);
    }
+
 
 }

@@ -26,10 +26,21 @@ public class UserServiceImp implements UserService {
       return userDao.listUsers();
    }
 
-   @Transactional
    @Override
    public void drop() {
-      userDao.drop();
+
    }
+
+   @Override
+   public void create() {
+
+   }
+
+   @Override
+   @Transactional
+   public User getUser(String model, int series) {
+      return userDao.getUser(model, series);
+   }
+
 
 }
