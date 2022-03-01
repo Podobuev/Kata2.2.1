@@ -7,7 +7,5 @@ import java.util.List;
 public interface UserService {
     void add(User user);
     List<User> listUsers();
-    void drop();
-    void create();
     public User getUser(String model, int series);
 }
